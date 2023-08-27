@@ -15,6 +15,7 @@ const char *vertexShaderSource = "#version 330 core\n"
 								 "void main()\n"
 								 "{\n"
 								 "   gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);\n"
+								 "   gl_PointSize = 10.0;\n" // Set the point size
 								 "}\0";
 const char *fragmentShaderSource = "#version 330 core\n"
 								   "out vec4 FragColor;\n"
@@ -150,10 +151,12 @@ int main()
 		glClear(GL_COLOR_BUFFER_BIT);
 
 		// draw our first triangle
+		glEnable(GL_PROGRAM_POINT_SIZE);
 		glUseProgram(shaderProgram);
 		glBindVertexArray(VAO); // seeing as we only have a single VAO there's no need to bind it every time, but we'll do so to keep things a bit more organized
-		glDrawArrays(GL_TRIANGLES, 0, 6);
+		glDrawArrays(GL_POINTS, 0, 6);
 		// glBindVertexArray(0); // no need to unbind it every time
+		glDisable(GL_PROGRAM_POINT_SIZE);
 
 		// glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
 		// -------------------------------------------------------------------------------
