@@ -102,11 +102,20 @@ int main()
 
 	// set up vertex data (and buffer(s)) and configure vertex attributes
 	// ------------------------------------------------------------------
-	float vertices[] = {
-		-0.5f, -0.5f, 0.0f, // left
-		0.5f, -0.5f, 0.0f,	// right
-		0.0f, 0.5f, 0.0f	// top
-	};
+	const int numSegments = 100; // Number of segments on the circle's circumference
+	float radius = 0.5f;
+
+	float circleVertices[numSegments * 3]; // Each vertex has 3 components (x, y, z)
+
+	for (int i = 0; i < numSegments; ++i) {
+		float theta = 2.0f * M_PI * float(i) / float(numSegments); // Angle around the circle
+		float x = radius * cos(theta); // x-coordinate of the vertex
+		float y = radius * sin(theta); // y-coordinate of the vertex
+
+		circleVertices[i * 3] = x;
+		circleVertices[i * 3 + 1] = y;
+		circleVertices[i * 3 + 2] = 0.0f; // z-coordinate (in 2D, set to 0)
+	}
 
 	unsigned int VBO, VAO;
 	glGenVertexArrays(1, &VAO);
@@ -115,7 +124,7 @@ int main()
 	glBindVertexArray(VAO);
 
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(circleVertices), circleVertices, GL_STATIC_DRAW);
 
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void *)0);
 	glEnableVertexAttribArray(0);
@@ -146,7 +155,7 @@ int main()
 		// draw our first triangle
 		glUseProgram(shaderProgram);
 		glBindVertexArray(VAO); // seeing as we only have a single VAO there's no need to bind it every time, but we'll do so to keep things a bit more organized
-		glDrawArrays(GL_TRIANGLES, 0, 3);
+		glDrawArrays(GL_TRIANGLE_FAN, 0, numSegments);
 		// glBindVertexArray(0); // no need to unbind it every time
 
 		// glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
