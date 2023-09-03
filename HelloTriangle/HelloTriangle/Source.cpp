@@ -102,19 +102,20 @@ int main()
 
 	// set up vertex data (and buffer(s)) and configure vertex attributes
 	// ------------------------------------------------------------------
-	const int numVertices = 8;
+	const int numVertices = 6;
 	float radius = 0.5f;
 
-	float octagonVertices[numVertices * 3]; // Each vertex has 3 components (x, y, z)
+	float pentagonVertices[numVertices * 3]; // Each vertex has 3 components (x, y, z)
 
-	for (int i = 0; i < numVertices; ++i) {
-		float angle = 2.0f * M_PI * float(i) / float(numVertices); // Angle around the center of the octagon
-		float x = radius * cos(angle); // x-coordinate of the vertex
-		float y = radius * sin(angle); // y-coordinate of the vertex
+	for (int i = 0; i < numVertices; ++i)
+	{
+		float angle = 2.0f * M_PI * float(i) / float(numVertices); // Angle around the center of the pentagon
+		float x = radius * cos(angle);							   // x-coordinate of the vertex
+		float y = radius * sin(angle);							   // y-coordinate of the vertex
 
-		octagonVertices[i * 3] = x;
-		octagonVertices[i * 3 + 1] = y;
-		octagonVertices[i * 3 + 2] = 0.0f; // z-coordinate (in 2D, set to 0)
+		pentagonVertices[i * 3] = x;
+		pentagonVertices[i * 3 + 1] = y;
+		pentagonVertices[i * 3 + 2] = 0.0f; // z-coordinate (in 2D, set to 0)
 	}
 
 	unsigned int VBO, VAO;
@@ -124,7 +125,7 @@ int main()
 	glBindVertexArray(VAO);
 
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(octagonVertices), octagonVertices, GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(pentagonVertices), pentagonVertices, GL_STATIC_DRAW);
 
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void *)0);
 	glEnableVertexAttribArray(0);
@@ -152,7 +153,7 @@ int main()
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
 
-		// draw the octagon
+		// draw the pentagon
 		glUseProgram(shaderProgram);
 		glBindVertexArray(VAO); // seeing as we only have a single VAO there's no need to bind it every time, but we'll do so to keep things a bit more organized
 		glDrawArrays(GL_TRIANGLE_FAN, 0, numVertices);
