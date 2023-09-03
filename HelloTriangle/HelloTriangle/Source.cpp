@@ -102,20 +102,26 @@ int main()
 
 	// set up vertex data (and buffer(s)) and configure vertex attributes
 	// ------------------------------------------------------------------
-	const int numVertices = 6;
+	const int numVertices = 8; // vertex for circle around it
 	float radius = 0.5f;
 
-	float pentagonVertices[numVertices * 3]; // Each vertex has 3 components (x, y, z)
+	float pacmanVertices[(numVertices + 1) * 3]; // Each vertex has 3 components (x, y, z) (+1 center of pacman)
 
-	for (int i = 0; i < numVertices; ++i)
+	// Set center vertex for mouth hole
+	pacmanVertices[0 * 3] = 0.0f;
+	pacmanVertices[0 * 3 + 1] = 0.0f;
+	pacmanVertices[0 * 3 + 2] = 0.0f; // z-coordinate (in 2D, set to 0)
+
+	// Set circle vertex coordinates
+	for (int i = 1; i <= numVertices; ++i)
 	{
-		float angle = 2.0f * M_PI * float(i) / float(numVertices); // Angle around the center of the pentagon
+		float angle = 2.0f * M_PI * float(i) / float(numVertices); // Angle around the center of the pacman
 		float x = radius * cos(angle);							   // x-coordinate of the vertex
 		float y = radius * sin(angle);							   // y-coordinate of the vertex
 
-		pentagonVertices[i * 3] = x;
-		pentagonVertices[i * 3 + 1] = y;
-		pentagonVertices[i * 3 + 2] = 0.0f; // z-coordinate (in 2D, set to 0)
+		pacmanVertices[i * 3] = x;
+		pacmanVertices[i * 3 + 1] = y;
+		pacmanVertices[i * 3 + 2] = 0.0f; // z-coordinate (in 2D, set to 0)
 	}
 
 	unsigned int VBO, VAO;
@@ -125,7 +131,7 @@ int main()
 	glBindVertexArray(VAO);
 
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(pentagonVertices), pentagonVertices, GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(pacmanVertices), pacmanVertices, GL_STATIC_DRAW);
 
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void *)0);
 	glEnableVertexAttribArray(0);
@@ -153,10 +159,10 @@ int main()
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
 
-		// draw the pentagon
+		// draw the pacman
 		glUseProgram(shaderProgram);
-		glBindVertexArray(VAO); // seeing as we only have a single VAO there's no need to bind it every time, but we'll do so to keep things a bit more organized
-		glDrawArrays(GL_TRIANGLE_FAN, 0, numVertices);
+		glBindVertexArray(VAO);							   // seeing as we only have a single VAO there's no need to bind it every time, but we'll do so to keep things a bit more organized
+		glDrawArrays(GL_TRIANGLE_FAN, 0, numVertices + 1); // +1 for center vertex
 		// glBindVertexArray(0); // no need to unbind it every time
 
 		// glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
