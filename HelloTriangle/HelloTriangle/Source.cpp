@@ -102,20 +102,42 @@ int main()
 
 	// set up vertex data (and buffer(s)) and configure vertex attributes
 	// ------------------------------------------------------------------
-	const int numVertices = 3;
+	const int numVertices = 9;
 
-	float pizzaVertices[numVertices * 3]; // Each vertex has 3 components (x, y, z)
+	float starVertices[numVertices * 3]; // Each vertex has 3 components (x, y, z)
 
-	// Set center vertex
-	pizzaVertices[0 * 3] = -0.25f;
-	pizzaVertices[0 * 3 + 1] = -0.5f;
-	pizzaVertices[0 * 3 + 2] = 0.0f;
-	pizzaVertices[1 * 3] = 0.25f;
-	pizzaVertices[1 * 3 + 1] = -0.5f;
-	pizzaVertices[1 * 3 + 2] = 0.0f;
-	pizzaVertices[2 * 3] = 0.0f;
-	pizzaVertices[2 * 3 + 1] = 0.5f;
-	pizzaVertices[2 * 3 + 2] = 0.0f;
+	// Triangle 1
+	starVertices[0 * 3] = -0.75f;
+	starVertices[0 * 3 + 1] = 0.25f;
+	starVertices[0 * 3 + 2] = 0.0f;
+	starVertices[1 * 3] = 0.0f;
+	starVertices[1 * 3 + 1] = -0.5f;
+	starVertices[1 * 3 + 2] = 0.0f;
+	starVertices[2 * 3] = 0.75f;
+	starVertices[2 * 3 + 1] = 0.25f;
+	starVertices[2 * 3 + 2] = 0.0f;
+
+	// Triangle 2
+	starVertices[3 * 3] = -0.5f;
+	starVertices[3 * 3 + 1] = -1.0f;
+	starVertices[3 * 3 + 2] = 0.0f;
+	starVertices[4 * 3] = 0.0f;
+	starVertices[4 * 3 + 1] = -0.5f;
+	starVertices[4 * 3 + 2] = 0.0f;
+	starVertices[5 * 3] = 0.0f;
+	starVertices[5 * 3 + 1] = 1.0f;
+	starVertices[5 * 3 + 2] = 0.0f;
+
+	// Triangle 3
+	starVertices[6 * 3] = 0.5f;
+	starVertices[6 * 3 + 1] = -1.0f;
+	starVertices[6 * 3 + 2] = 0.0f;
+	starVertices[7 * 3] = 0.0f;
+	starVertices[7 * 3 + 1] = -0.5f;
+	starVertices[7 * 3 + 2] = 0.0f;
+	starVertices[8 * 3] = 0.0f;
+	starVertices[8 * 3 + 1] = 1.0f;
+	starVertices[8 * 3 + 2] = 0.0f;
 
 	unsigned int VBO, VAO;
 	glGenVertexArrays(1, &VAO);
@@ -124,7 +146,7 @@ int main()
 	glBindVertexArray(VAO);
 
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(pizzaVertices), pizzaVertices, GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(starVertices), starVertices, GL_STATIC_DRAW);
 
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void *)0);
 	glEnableVertexAttribArray(0);
@@ -152,10 +174,10 @@ int main()
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
 
-		// draw the pizza
+		// draw the star
 		glUseProgram(shaderProgram);
 		glBindVertexArray(VAO); // seeing as we only have a single VAO there's no need to bind it every time, but we'll do so to keep things a bit more organized
-		glDrawArrays(GL_TRIANGLE_FAN, 0, numVertices);
+		glDrawArrays(GL_TRIANGLES, 0, numVertices);
 		// glBindVertexArray(0); // no need to unbind it every time
 
 		// glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
