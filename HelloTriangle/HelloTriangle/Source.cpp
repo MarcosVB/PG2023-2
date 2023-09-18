@@ -107,13 +107,39 @@ int main()
 
 	// set up vertex data (and buffer(s)) and configure vertex attributes
 	// ------------------------------------------------------------------
-	float startPosition[] = {0.5f, 0.5f};
+	float startPosition[] = {
+		// First
+		-0.5f,
+		0.5f,
+		// Second
+		0.5f,
+		0.5f,
+		// Third
+		-0.5f,
+		-0.5f,
+		// Fourth
+		0.5f,
+		-0.5f,
+	};
 	float size = 0.25f;
 	float vertices[] = {
 		// positions         									// colors
+		// First
 		startPosition[0] + size, startPosition[1] - size, 0.0f, 1.0f, 0.0f, 0.0f, // bottom right
 		startPosition[0] - size, startPosition[1] - size, 0.0f, 0.0f, 1.0f, 0.0f, // bottom left
-		startPosition[0], startPosition[1] + size, 0.0f, 0.0f, 0.0f, 1.0f		  // top
+		startPosition[0], startPosition[1] + size, 0.0f, 0.0f, 0.0f, 1.0f,		  // top
+		// Second
+		startPosition[2] + size, startPosition[3] - size, 0.0f, 1.0f, 0.0f, 0.0f, // bottom right
+		startPosition[2] - size, startPosition[3] - size, 0.0f, 0.0f, 1.0f, 0.0f, // bottom left
+		startPosition[2], startPosition[3] + size, 0.0f, 0.0f, 0.0f, 1.0f,		  // top
+		// Third
+		startPosition[4] + size, startPosition[5] - size, 0.0f, 1.0f, 0.0f, 0.0f, // bottom right
+		startPosition[4] - size, startPosition[5] - size, 0.0f, 0.0f, 1.0f, 0.0f, // bottom left
+		startPosition[4], startPosition[5] + size, 0.0f, 0.0f, 0.0f, 1.0f,		  // top
+		// Fourth
+		startPosition[6] + size, startPosition[7] - size, 0.0f, 1.0f, 0.0f, 0.0f, // bottom right
+		startPosition[6] - size, startPosition[7] - size, 0.0f, 0.0f, 1.0f, 0.0f, // bottom left
+		startPosition[6], startPosition[7] + size, 0.0f, 0.0f, 0.0f, 1.0f,		  // top
 	};
 
 	unsigned int VBO, VAO;
@@ -154,7 +180,7 @@ int main()
 
 		// render the triangle
 		glBindVertexArray(VAO);
-		glDrawArrays(GL_TRIANGLES, 0, 3);
+		glDrawArrays(GL_TRIANGLES, 0, 12);
 
 		// glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
 		// -------------------------------------------------------------------------------
