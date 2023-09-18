@@ -107,12 +107,13 @@ int main()
 
 	// set up vertex data (and buffer(s)) and configure vertex attributes
 	// ------------------------------------------------------------------
+	float startPosition[] = {0.5f, 0.5f};
+	float size = 0.25f;
 	float vertices[] = {
-		// positions         // colors
-		0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 0.0f,  // bottom right
-		-0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 0.0f, // bottom left
-		0.0f, 0.5f, 0.0f, 0.0f, 0.0f, 1.0f	  // top
-
+		// positions         									// colors
+		startPosition[0] + size, startPosition[1] - size, 0.0f, 1.0f, 0.0f, 0.0f, // bottom right
+		startPosition[0] - size, startPosition[1] - size, 0.0f, 0.0f, 1.0f, 0.0f, // bottom left
+		startPosition[0], startPosition[1] + size, 0.0f, 0.0f, 0.0f, 1.0f		  // top
 	};
 
 	unsigned int VBO, VAO;
